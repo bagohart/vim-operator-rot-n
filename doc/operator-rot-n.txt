@@ -1,0 +1,1 @@
+For the documentation to vim-operator-rot-n, see the corresponding README.md
