@@ -44,7 +44,8 @@ Otherwise, the `'[` and `']` marks determine the selection.
 There is usually no good reason to change this setting.
 
 # Requirements
-Requires [vim-repeat](https://github.com/tpope/vim-repeat).\
+Requires [vim-repeat](https://github.com/tpope/vim-repeat) for clever count
+handling, but also works without, just less cool.\
 Developed and tested on Neovim 0.4.3. When I tested it on Vim 8.2, it worked, too.
 
 # Implementation

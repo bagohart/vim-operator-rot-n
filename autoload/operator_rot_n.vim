@@ -10,7 +10,7 @@ let s:encryption_to = {}
 " preparation for optimized efficient decryption
 " todo: make local
 " tested. looks good.
-function! Init() abort
+function! OperatorRotNInit() abort
     let from = s:alphabet_lower_case . s:alphabet_upper_case
     for i in range(1,25)
         let to_lower_case =   strcharpart(s:alphabet_lower_case, i) .
@@ -28,7 +28,7 @@ endfunction
 
 " I tried to implement on-demand initialization, but then the first invocation
 " would always fail. very mysterious o_O
-call Init()
+call OperatorRotNInit()
 
 " Operator setup in normal and visual mode {{{
 function! operator_rot_n#SetupOperator()
@@ -60,13 +60,17 @@ function! operator_rot_n#OperatorRotN(type) " {{{
         call map(selected_text, "tr(v:val, s:from, s:encryption_to[s:count])")
         call operator_rot_n#ReplaceYankedSelection(selected_text, a:type)
         call setpos(".", getpos("'["))
-        call repeat#set("\<Plug>(operator-rot-n-repeat)")
+        if exists('*repeat#set')
+            call repeat#set("\<Plug>(operator-rot-n-repeat)")
+        endif
     elseif a:type ==# 'v' || a:type ==# 'V' || a:type ==# "\<C-v>"
         let selected_text = operator_rot_n#GetVisualSelection()
         call map(selected_text, "tr(v:val, s:from, s:encryption_to[s:count])")
         call operator_rot_n#ReplaceVisualSelection(selected_text, a:type)
         call setpos(".", getpos("'<"))
-        call repeat#set("\<Plug>(operator-rot-n-repeat-visual)")
+        if exists('*repeat#set')
+            call repeat#set("\<Plug>(operator-rot-n-repeat-visual)")
+        endif
     else
         throw "This should never happen: Called OperatorRotN with wrong type=" . a:type
     endif
